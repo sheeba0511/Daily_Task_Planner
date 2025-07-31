@@ -83,6 +83,18 @@ export enum EventProgressStatus {
   MISCELLANEOUS_EVENTS = "MISCELLANEOUS_EVENTS",
   CUSTOM = "CUSTOM",
 }
+
+export const eventTypesLabel = {
+  [EventProgressStatus.PERSONAL_EVENTS]: { label: "Personal Events" },
+  [EventProgressStatus.FESTIVALS_RELIGIOUS_EVENTS]: {
+    label: "Festival & Religious Events",
+  },
+  [EventProgressStatus.PROFESSIONAL_EVENTS]: { label: "Professional Events" },
+  [EventProgressStatus.SOCIAL_EVENTS]: { label: "Social Events" },
+  [EventProgressStatus.MISCELLANEOUS_EVENTS]: { label: "Miscellaneous Events" },
+  [EventProgressStatus.CUSTOM]: { label: "Custom" },
+};
+
 export const eventTypes = [
   {
     key: EventProgressStatus.PERSONAL_EVENTS,
@@ -124,6 +136,7 @@ export enum PersonalEventStatus {
   HOUSEWARMING = "HOUSEWARMING",
   NAMING_CEREMONY = " NAMING_CEREMONY",
 }
+
 export const personalEvent = [
   {
     key: PersonalEventStatus.BIRTHDAY,
@@ -156,7 +169,7 @@ export const personalEvent = [
 
 export enum FestivalEventStatus {
   EID_EIDUL_ADHA = "EID_EIDUL_ADHA",
-  DIWALI_HOLI_CHRISTMAS = "DIWALI_HOLI_CHRISTMAS",
+  DIWALI_HOLI_CHRISTMAS = "DIWALI_HOLI_CH RISTMAS",
   RAMZAN_LENT_NAVRATRI = "RAMZAN_LENT_NAVRATRI",
   NEW_YEAR = "NEW_YEAR",
 }
@@ -350,5 +363,61 @@ export const labelOption = [
     key: TaskLabelStatus.AUTH,
     value: TaskLabelStatus.AUTH,
     label: "Auth",
+  },
+];
+
+export enum ModalType {
+  CREATE = "CREATE",
+  EDIT = "EDIT",
+}
+
+export const modalEditCreate = [
+  {
+    key: ModalType.CREATE,
+    value: ModalType.CREATE,
+    label: "Create",
+  },
+  {
+    key: ModalType.EDIT,
+    value: ModalType.EDIT,
+    label: "Edit",
+  },
+];
+
+export enum ReminderModal {
+  TRUE = "TRUE",
+  FALSE = "FALSE",
+}
+export const reminderMe = [
+  {
+    key: ReminderModal.TRUE,
+    value: ReminderModal.TRUE,
+    label: "True",
+  },
+  {
+    key: ReminderModal.FALSE,
+    value: ReminderModal.FALSE,
+    label: "False",
+  },
+];
+
+export enum EventStatus {
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+}
+export const eventStatusLabel = {
+  [EventStatus.PENDING]: { label: "Pending", color: "#FADB14" },
+  [EventStatus.COMPLETED]: { label: "Completed", color: "#52C41A" },
+};
+export const eventStatusOption = [
+  {
+    key: EventStatus.PENDING,
+    value: EventStatus.PENDING,
+    label: "Pending",
+  },
+  {
+    key: EventStatus.COMPLETED,
+    value: EventStatus.COMPLETED,
+    label: "Completed",
   },
 ];

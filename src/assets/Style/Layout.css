@@ -176,8 +176,19 @@ body {
   border-radius: 4px;
 }
 
-.task_table {
+.task_table,
+.event_card {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.event_container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.action_btn {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }

@@ -1,25 +1,53 @@
 import "../../assets/Style/Layout.css";
-import { Button, Card, Table, Typography } from "antd";
+import { Button, Card, Popconfirm, Table, Typography } from "antd";
 import { taskList } from "../../utils/TaskJsonData";
+
 import TaskModal from "./TaskModal";
 import { useState } from "react";
 import {
   taskStatusLabel,
   priorityStatusLabel,
+  ModalType,
 } from "../../utils/EnumAndOptions";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { taskOpenModal } from "../../store/taskModalSlice";
+import { notification } from "antd";
 
 function Task() {
+  const [api, contextHolder] = notification.useNotification();
+  const dispatch = useDispatch();
   const { Title } = Typography;
   const [tasks, setTasks] = useState(taskList);
-  const dispatch = useDispatch();
 
-  const addNewTask = (newTask) => {
-    const updatedData = [...tasks];
-    updatedData.push(newTask);
+  const handleDelete = (taskId) => {
+    const updatedData = tasks.filter((f) => f?.id !== taskId);
     setTasks(updatedData);
+    api.success({
+      message: "Task Deleted",
+      description: "Your task has been successfully deleted.",
+      placement: "topRight",
+    });
+  };
+
+  const handleEdit = (item) => {
+    dispatch(
+      taskOpenModal({
+        type: ModalType.EDIT,
+        data: item,
+      })
+    );
+  };
+
+  const handleCreate = () => {
+    dispatch(
+      taskOpenModal({
+        type: ModalType.CREATE,
+        data: {
+          id: tasks?.length + 1,
+        },
+      })
+    );
   };
 
   const columns = [
@@ -78,22 +106,28 @@ function Task() {
       title: "Action",
       dataIndex: "action",
       key: "key",
+      render: (e, data) => (
+        <div className="action_btn">
+          <Button onClick={() => handleEdit(data)}>Edit</Button>
+          <Popconfirm
+            title="Are you sure, you want to delete this task ?"
+            placement="leftTop"
+            okText="Yes"
+            cancelText="No"
+            okButtonProps={{ danger: true }}
+            description="This action is permanent and cannot be undone."
+            onConfirm={() => handleDelete(data?.id)}
+          >
+            <Button danger>Delete</Button>
+          </Popconfirm>
+        </div>
+      ),
     },
   ];
 
-  const handleCreate = () => {
-    dispatch(
-      taskOpenModal({
-        type: "CREATE",
-        data: {
-          nextId: tasks?.length + 1,
-        },
-      })
-    );
-  };
-
   return (
     <div>
+      {contextHolder}
       <Card>
         <div className="task_table">
           <div>
@@ -114,7 +148,7 @@ function Task() {
           rowKey="id"
         />
       </Card>
-      <TaskModal />
+      <TaskModal setTasks={setTasks} />
     </div>
   );
 }

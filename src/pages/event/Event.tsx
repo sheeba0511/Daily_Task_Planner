@@ -1,197 +1,128 @@
-import {
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Space,
-} from "antd";
-import React, { useState } from "react";
+import { Button, Card, Col, Popconfirm, Row, Space, Typography } from "antd";
+// import React, { useState } from "react";
 import "../../assets/Style/Layout.css";
+import EventModal from "./EventModal";
+import { useDispatch } from "react-redux";
+import { eventJsonList } from "../../utils/EventJsonData";
+import dayjs from "dayjs";
+import { Descriptions } from "antd";
+import { eventOpenModal } from "../../store/eventModalSlice";
 import {
-  eventTypes,
-  personalEvent,
-  festivalEvent,
-  professionalEvent,
-  socialEvent,
-  miscellaneousEvent,
-  eventPriority,
+  ModalType,
+  priorityStatusLabel,
+  eventTypesLabel,
 } from "../../utils/EnumAndOptions";
+import { useState } from "react";
+import { notification } from "antd";
 
 function Event() {
-  const [eventForm] = Form.useForm();
-  const [eventModal, setEventModal] = useState(false);
-  const [cardData, setCardData] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
+  const dispatch = useDispatch();
+  const { Title } = Typography;
+  const [eventList, setEventList] = useState(eventJsonList);
 
-  const handleEvent = () => {
-    // used in cancel button
-    setEventModal(false);
+  const handleCreateEvent = () => {
+    dispatch(
+      eventOpenModal({
+        type: ModalType.CREATE,
+        data: {
+          id: eventList?.length + 1,
+        },
+      })
+    );
   };
-  const eventFormFinish = (value) => {
-    // used in form submission
-    console.log(value);
 
-    setCardData([...cardData, value]);
+  const handleEdit = (item) => {
+    dispatch(
+      eventOpenModal({
+        type: ModalType.EDIT,
+        data: item,
+      })
+    );
+  };
+
+  const handleDelete = (eventId) => {
+    const updatedData = eventList.filter((f) => f?.id !== eventId);
+    setEventList(updatedData);
+    api.success({
+      message: "Event Deleted",
+      description: "Your event has been successfully deleted.",
+      placement: "topRight",
+    });
   };
   return (
-    <div>
-      <Button type="primary" onClick={() => setEventModal(true)}>
-        Create Event
-      </Button>
-      <Modal
-        title="Create New Event"
-        centered
-        open={eventModal}
-        onCancel={handleEvent}
-        width={{
-          xs: "90%",
-          sm: "80%",
-          md: "70%",
-          lg: "60%",
-          xl: "50%",
-          xxl: "40%",
-        }}
-        footer={
-          <div className="event_footer_btn">
-            <Space>
-              <Button onClick={handleEvent}>Cancel</Button>
-              <Button type="primary" onClick={() => eventForm.submit()}>
-                Submit
+    <>
+      {contextHolder}
+      <Card>
+        <div className="event_container">
+          <div className="event_card">
+            <div>
+              <Typography>
+                <Title level={3}> Total Events : {eventList.length} </Title>
+              </Typography>
+            </div>
+            <div>
+              <Button type="primary" onClick={handleCreateEvent}>
+                Create Event
               </Button>
-            </Space>
+            </div>
           </div>
-        }
-      >
-        <Form
-          onFinish={eventFormFinish}
-          form={eventForm}
-          name="eventForm"
-          labelCol={{ span: 7 }}
-          labelAlign="left"
-        >
-          {/* Event types */}
-          <Form.Item
-            label="Event Types"
-            name="selectEventType"
-            required={false}
-            rules={[{ required: true }]}
-          >
-            <Select placeholder="Select event type" options={eventTypes} />
-          </Form.Item>
+          <Row gutter={[16, 16]}>
+            {[...eventList]?.reverse()?.map((event, index) => (
+              <Col key={index} span={8}>
+                <Card
+                  title={eventTypesLabel[event.eventType].label}
+                  style={{ height: "100%" }}
+                >
+                  <Descriptions
+                    column={1}
+                    labelStyle={{ width: 140, fontWeight: "bold" }}
+                  >
+                    <Descriptions.Item label="Event Name">
+                      {event.customEvent}
+                    </Descriptions.Item>
 
-          {/* Personal Event */}
-          <Form.Item label="Personal Events" name="personalEvent">
-            <Select
-              placeholder="Select Personal Event"
-              options={personalEvent}
-            />
-          </Form.Item>
+                    <Descriptions.Item label="Event Date & Time">
+                      {event.date
+                        ? dayjs(event.date).format("DD MMM YYYY HH:mm")
+                        : "No date"}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Event Description">
+                      {event.description}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Priority">
+                      <span
+                        style={{
+                          color: priorityStatusLabel[event.priority].color,
+                        }}
+                      >
+                        {priorityStatusLabel[event.priority].label}
+                      </span>
+                    </Descriptions.Item>
+                  </Descriptions>
 
-          {/* Festival & Religious Event */}
-          <Form.Item label="Festival & Religious Events" name="festivalEvent">
-            <Select
-              placeholder="Select Festival & Religious Event"
-              options={festivalEvent}
-            />
-          </Form.Item>
-
-          {/* Professional Events */}
-          <Form.Item label="Professional Events" name="professionalEvent">
-            <Select
-              placeholder="Select Professional Event"
-              options={professionalEvent}
-            />
-          </Form.Item>
-
-          {/* Social events */}
-          <Form.Item label="Social Events" name="socialEvent">
-            <Select placeholder="Select Social Event" options={socialEvent} />
-          </Form.Item>
-
-          {/* Miscellaneous Events */}
-          <Form.Item label="Miscellaneous Events" name="miscellaneousEvent">
-            <Select
-              placeholder="Select Miscellaneous Event"
-              options={miscellaneousEvent}
-            />
-          </Form.Item>
-
-          {/* Custom Event */}
-          <Form.Item label="Custom Events" name="customEvent">
-            <Input placeholder="Please enter your Custom Event" />
-          </Form.Item>
-          {/* Date and Time */}
-          <Form.Item
-            label="Date and Time"
-            name="dateTime"
-            required={false}
-            rules={[{ required: true }]}
-          >
-            {/* DD MMM YYYY, hh:mm A */}
-            <DatePicker
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
-              style={{ width: "100%" }}
-            />
-          </Form.Item>
-          {/* Description */}
-          <Form.Item
-            label="Event Description"
-            name="description"
-            required={false}
-            rules={[{ required: true }]}
-          >
-            <Input.TextArea
-              placeholder="Enter event details here..."
-              rows={4}
-            />
-          </Form.Item>
-          {/* Priority */}
-          <Form.Item
-            label="Priority"
-            name="priority"
-            required={false}
-            rules={[{ required: true }]}
-          >
-            <Select
-              placeholder="Select Event Priority"
-              options={eventPriority}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-
-      {/* Card */}
-      <Row gutter={[16, 16]}>
-        {cardData.map((event, index) => (
-          <Col key={index} span={8}>
-            <Card title={event.selectEventType}>
-              {/* <p>Event Types: {event.selectEventType}</p> */}
-              <p>Event Name:{event.personalEvent} </p>
-              <p>
-                {/* .format('YYYY-MM-DD HH:mm:ss') */}
-                Event Date & Time:
-                {event.dateTime.format("DD MMM YYYY, HH:mm:ss ")}
-              </p>
-              <p>Event Description:{event.description}</p>
-              <p>Priority: {event.priority}</p>
-
-              {
-                <Space>
-                  <Button>Edit</Button>
-                  <Button type="primary">Delete</Button>
-                  <Button>Complete</Button>
-                </Space>
-              }
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+                  <Space style={{ paddingTop: "20px" }}>
+                    <Button onClick={() => handleEdit(event)}>Edit</Button>
+                    <Popconfirm
+                      title="Are you sure, you want to delete this event ?"
+                      placement="leftTop"
+                      okText="Yes"
+                      cancelText="No"
+                      okButtonProps={{ danger: true }}
+                      description="This action is permanent and cannot be undone."
+                      onConfirm={() => handleDelete(event?.id)}
+                    >
+                      <Button danger>Delete</Button>
+                    </Popconfirm>
+                  </Space>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </div>
+        <EventModal setEventList={setEventList} />
+      </Card>
+    </>
   );
 }
 

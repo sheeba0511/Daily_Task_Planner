@@ -6,12 +6,15 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
+import { App as AntdApp } from "antd";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <Provider store={store}>
       <StrictMode>
-        <App />
+        <AntdApp>
+          <App />
+        </AntdApp>
       </StrictMode>
     </Provider>
   </BrowserRouter>

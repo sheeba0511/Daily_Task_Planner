@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ModalType } from "../utils/EnumAndOptions";
 
 const initialState = {
   taskModalOpen: false,
-  taskModalType: "create",
-  editTaskData: null,
+  taskModalType: ModalType.CREATE,
+  taskData: null,
 };
 
 const taskModalSlice = createSlice({
@@ -13,12 +14,12 @@ const taskModalSlice = createSlice({
     taskOpenModal: (state, action) => {
       state.taskModalOpen = true;
       state.taskModalType = action.payload.type;
-      state.editTaskData = action.payload.data || null;
+      state.taskData = action.payload.data || null;
     },
     taskCloseModal: (state) => {
       state.taskModalOpen = false;
-      state.taskModalType = "create";
-      state.editTaskData = null;
+      state.taskModalType = ModalType.CREATE;
+      state.taskData = null;
     },
   },
 });

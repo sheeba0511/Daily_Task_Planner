@@ -1,35 +1,75 @@
-import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Select,
+  notification,
+} from "antd";
 import dayjs from "dayjs";
-
 import {
   taskAssignedToOtions,
   taskOptions,
   eventPriority,
   labelOption,
+  ModalType,
 } from "../../utils/EnumAndOptions";
 import { useDispatch, useSelector } from "react-redux";
 import { taskCloseModal } from "../../store/taskModalSlice";
+import { useEffect } from "react";
 
-function TaskModal() {
+function TaskModal({ setTasks }) {
+  const [api, contextHolder] = notification.useNotification();
   const [taskForm] = Form.useForm();
-  const { taskModalOpen, taskModalType, editTaskData } = useSelector(
+  const { taskModalOpen, taskModalType, taskData } = useSelector(
     (store: any) => store.taskModal
   );
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (taskModalType === ModalType.EDIT) {
+      const editDate = {
+        ...taskData,
+        startDate: dayjs(taskData.startDate),
+        dueDate: dayjs(taskData.dueDate),
+      };
+      taskForm.setFieldsValue(editDate);
+    }
+  }, [taskModalType]);
 
   const taskFormFinish = (values) => {
     const newTask = {
       ...values,
-      id: editTaskData?.nextId,
-      createDate: dayjs().format("YYYY-MM-DD"),
-      updatedDate: dayjs().format("YYYY-MM-DD"),
-      startDate: values.startdate.format("YYYY-MM-DD"),
-      dueDate: values.duedate.format("YYYY-MM-DD"),
+      id: taskData?.id,
+      startDate: values?.startDate?.format("YYYY-MM-DD"),
+      dueDate: values?.dueDate?.format("YYYY-MM-DD"),
     };
-    handleModal();
+
+    if (taskModalType === ModalType.EDIT) {
+      const updatedData = {
+        ...taskData,
+        ...newTask,
+      };
+      setTasks((pre) =>
+        pre?.map((task) => (task.id === updatedData.id ? updatedData : task))
+      );
+      api.success({
+        message: "Task Edited",
+        description: "Your task has been successfully edited.",
+        placement: "topRight",
+      });
+    } else {
+      setTasks((pre) => [...pre, newTask]);
+      api.success({
+        message: "Task Created",
+        description: "Your task has been successfully created.",
+        placement: "topRight",
+      });
+    }
+    closeModal();
   };
 
-  const handleModal = () => {
+  const closeModal = () => {
     dispatch(taskCloseModal());
     Modal.destroyAll();
     taskForm.resetFields();
@@ -37,10 +77,14 @@ function TaskModal() {
 
   return (
     <Modal
-      title="Create New Task"
+      title={
+        taskModalType === ModalType.EDIT
+          ? `Edit: ${taskData?.title || "Task"}`
+          : "Create New Task"
+      }
       centered
       open={taskModalOpen}
-      onCancel={handleModal}
+      onCancel={closeModal}
       width={{
         xs: "90%",
         sm: "80%",
@@ -51,13 +95,14 @@ function TaskModal() {
       }}
       footer={
         <div className="task_footer_btn">
-          <Button onClick={handleModal}>Cancel</Button>
+          <Button onClick={closeModal}>Cancel</Button>
           <Button type="primary" onClick={() => taskForm.submit()}>
-            Submit
+            Save changes
           </Button>
         </div>
       }
     >
+      {contextHolder}
       <Form
         onFinish={taskFormFinish}
         form={taskForm}
@@ -107,7 +152,7 @@ function TaskModal() {
         {/* Start Date */}
         <Form.Item
           label="Start Date"
-          name="startdate"
+          name="startDate"
           required={false}
           rules={[{ required: true }]}
         >
@@ -116,7 +161,7 @@ function TaskModal() {
         {/* Due Date */}
         <Form.Item
           label="Due Date"
-          name="duedate"
+          name="dueDate"
           required={false}
           rules={[{ required: true }]}
         >
