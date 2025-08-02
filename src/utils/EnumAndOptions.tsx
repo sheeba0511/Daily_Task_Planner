@@ -130,11 +130,11 @@ export const eventTypes = [
 
 // FOR EVENT PAGE == Personal Events,
 export enum PersonalEventStatus {
-  BIRTHDAY = " BIRTHDAY",
-  ANNIVERSARY = "ANNIVERSARY",
-  ENGAGEMENT = "ENGAGEMENT",
-  HOUSEWARMING = "HOUSEWARMING",
-  NAMING_CEREMONY = " NAMING_CEREMONY",
+  BIRTHDAY = "Birthday",
+  ANNIVERSARY = "Anniversary",
+  ENGAGEMENT = "Engagement",
+  HOUSEWARMING = "Housewarming",
+  NAMING_CEREMONY = "Naming Ceremony ",
 }
 
 export const personalEvent = [
@@ -168,10 +168,10 @@ export const personalEvent = [
 // FOR EVENT PAGE= Festivals & Religious Events,
 
 export enum FestivalEventStatus {
-  EID_EIDUL_ADHA = "EID_EIDUL_ADHA",
-  DIWALI_HOLI_CHRISTMAS = "DIWALI_HOLI_CH RISTMAS",
-  RAMZAN_LENT_NAVRATRI = "RAMZAN_LENT_NAVRATRI",
-  NEW_YEAR = "NEW_YEAR",
+  EID_EIDUL_ADHA = "Eid, Eid-Ul-Adha",
+  DIWALI_HOLI_CHRISTMAS = "Diwali, Holi, Christmas ",
+  RAMZAN_LENT_NAVRATRI = "Ramzan, Lent, Navratri",
+  NEW_YEAR = "New Year",
 }
 export const festivalEvent = [
   {
@@ -199,11 +199,11 @@ export const festivalEvent = [
 // FOR EVENT PAGE = Professional Events
 
 export enum ProfessionalEventStatus {
-  WORK_ANNIVERSARY = "WORK_ANNIVERSARY",
-  COMPANY_FOUNDING_DAY = "COMPANY_FOUNDING_DAY",
-  PROMOTIONS = "PROMOTIONS",
-  APPRAISEL_EVENTS = "APPRAISEL_EVENTS",
-  TEAM_CELEBRATIONS = "TEAM_CELEBRATIONS",
+  WORK_ANNIVERSARY = "Work Anniversary",
+  COMPANY_FOUNDING_DAY = "Company Founding Day",
+  PROMOTIONS = "Promotions",
+  APPRAISEL_EVENTS = "Appraisel Events",
+  TEAM_CELEBRATIONS = "Team Celebrations",
 }
 export const professionalEvent = [
   {
@@ -235,11 +235,11 @@ export const professionalEvent = [
 
 // FOR EVENT PAGE = Social Events
 export enum SocialEventStatus {
-  WEDDING = "WEDDING",
-  BIRTHDAY_PARTY = "BIRTHDAY_PARTY",
-  FAREWELL = "FAREWELL",
-  REUNION = "REUNION",
-  PUBLIC_HOLIDAYS = "PUBLIC_HOLIDAYS",
+  WEDDING = "Wedding",
+  BIRTHDAY_PARTY = "Birthday Party",
+  FAREWELL = "Farewell",
+  REUNION = "Reunion",
+  PUBLIC_HOLIDAYS = "Public Holidays",
 }
 export const socialEvent = [
   {
@@ -271,9 +271,9 @@ export const socialEvent = [
 
 // FOR EVENT PAGE == Miscellaneous Events
 export enum MiscellaneousEventStatus {
-  REMINDERS = "REMINDERS",
-  TRAVEL_TRIP = "TRAVEL_TRIP",
-  APPOINTMENTS = "APPOINTMENTS",
+  REMINDERS = "Reminders",
+  TRAVEL_TRIP = "Travel Trip",
+  APPOINTMENTS = "Appointments",
 }
 export const miscellaneousEvent = [
   {
