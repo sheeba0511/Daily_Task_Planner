@@ -94,7 +94,16 @@ function EventModal({ setEventList }) {
   return (
     <>
       <Modal
-        title="Create New Event"
+        title={
+          EventModalType === ModalType.EDIT
+            ? `Edit :  ${eventData?.eventType || "Event"}`
+            : "Create New Event"
+        }
+        // {   {eventTypesLabel[event.eventType].label}
+        //   taskModalType === ModalType.EDIT
+        //     ? `Edit: ${taskData?.title || "Task"}`
+        //     : "Create New Task"
+        // }
         centered
         open={eventModalOpen}
         onCancel={closeModal}

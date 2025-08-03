@@ -17,7 +17,7 @@ import { notification } from "antd";
 function Task() {
   const [api, contextHolder] = notification.useNotification();
   const dispatch = useDispatch();
-  const { Title } = Typography;
+  const { Title, Text } = Typography;
   const [tasks, setTasks] = useState(taskList);
 
   const handleDelete = (taskId) => {
@@ -56,17 +56,32 @@ function Task() {
       title: "Task ID",
       dataIndex: "id",
       key: "key",
+      render: (text) => (
+        <Typography>
+          <Text>{text}</Text>
+        </Typography>
+      ),
     },
     {
       title: "Task Name",
       dataIndex: "title",
       key: "key",
+      render: (text) => (
+        <Typography>
+          <Text>{text}</Text>
+        </Typography>
+      ),
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "key",
       width: "20%",
+      render: (text) => (
+        <Typography>
+          <Text>{text}</Text>
+        </Typography>
+      ),
     },
     {
       title: "Status",
@@ -74,9 +89,9 @@ function Task() {
       key: "status",
       render: (e) => (
         <Typography>
-          <Title level={4} style={{ color: taskStatusLabel[e].color }}>
+          <Text style={{ color: taskStatusLabel[e].color }}>
             {taskStatusLabel[e].label}
-          </Title>
+          </Text>
         </Typography>
       ),
     },
@@ -86,9 +101,9 @@ function Task() {
       key: "key",
       render: (e) => (
         <Typography>
-          <Title level={4} style={{ color: priorityStatusLabel[e].color }}>
+          <Text style={{ color: priorityStatusLabel[e].color }}>
             {priorityStatusLabel[e].label}
-          </Title>
+          </Text>
         </Typography>
       ),
     },
@@ -98,7 +113,7 @@ function Task() {
       key: "key",
       render: (e) => (
         <Typography>
-          <Title level={4}>{dayjs(e).format("DD MMM YYYY")}</Title>
+          <Text>{dayjs(e).format("DD MMM YYYY")}</Text>
         </Typography>
       ),
     },

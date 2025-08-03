@@ -18,7 +18,7 @@ import { notification } from "antd";
 function Event() {
   const [api, contextHolder] = notification.useNotification();
   const dispatch = useDispatch();
-  const { Title } = Typography;
+  const { Title, Text } = Typography;
   const [eventList, setEventList] = useState(eventJsonList);
 
   const handleCreateEvent = () => {
@@ -71,7 +71,11 @@ function Event() {
             {[...eventList]?.reverse()?.map((event, index) => (
               <Col key={index} span={8}>
                 <Card
-                  title={eventTypesLabel[event.eventType].label}
+                  title={
+                    <Typography>
+                      <Title level={4}>{eventTypesLabel[event.eventType].label}</Title>
+                    </Typography>
+                  }
                   style={{ height: "100%" }}
                 >
                   <Descriptions
@@ -79,25 +83,35 @@ function Event() {
                     labelStyle={{ width: 140, fontWeight: "bold" }}
                   >
                     <Descriptions.Item label="Event Name">
-                      {event.customEvent}
+                      <Typography>
+                        <Text>{event.customEvent}</Text>
+                      </Typography>
                     </Descriptions.Item>
 
                     <Descriptions.Item label="Event Date & Time">
-                      {event.date
-                        ? dayjs(event.date).format("DD MMM YYYY HH:mm")
-                        : "No date"}
+                      <Typography>
+                        <Text>
+                          {event.date
+                            ? dayjs(event.date).format("DD MMM YYYY HH:mm")
+                            : "No date"}
+                        </Text>
+                      </Typography>
                     </Descriptions.Item>
                     <Descriptions.Item label="Event Description">
-                      {event.description}
+                      <Typography>
+                        <Text>{event.description}</Text>
+                      </Typography>
                     </Descriptions.Item>
                     <Descriptions.Item label="Priority">
-                      <span
-                        style={{
-                          color: priorityStatusLabel[event.priority].color,
-                        }}
-                      >
-                        {priorityStatusLabel[event.priority].label}
-                      </span>
+                      <Typography>
+                        <Text
+                          style={{
+                            color: priorityStatusLabel[event.priority].color,
+                          }}
+                        >
+                          {priorityStatusLabel[event.priority].label}
+                        </Text>
+                      </Typography>
                     </Descriptions.Item>
                   </Descriptions>
 

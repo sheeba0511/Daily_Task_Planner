@@ -1,4 +1,4 @@
-export const themeColors = {
+export const darkThemeColors = {
   primaryColor: "#E05B3B",
   secondaryColor: "#0075ff",
   bgColor: "#181d21",
@@ -16,6 +16,26 @@ export const themeColors = {
   whiteText: "#ffffff",
 };
 
+export const lightThemeColors = {
+  primaryColor: "#E05B3B",
+  secondaryColor: "#0075ff",
+  bgColor: "#f5f5f5",
+  primaryCardColor: "#ffffff",
+  secondaryCardColor: "#f0f0f0", // button bg
+  menuColor: "#e8e8e8",
+  borderColor: "#d9d9d9",
+  primaryHeadingColor: "#262626", // primary heading
+  headerTextColor: "#1f1f1f", //Header text
+  detailTextColor: "#8c8c8c",
+  // below 4 color are not exposed to edit for now
+  successColor: "#18c098",
+  warningColor: "#ed7d15",
+  errorColor: "#d84040",
+  whiteText: "#ffffff",
+};
+
+export const themeColors = darkThemeColors; // Default to dark theme
+
 export const mapThemes = (themeData) => {
   const COLORMAP = { ...themeColors, ...themeData };
   const mappedJSON = {
@@ -24,14 +44,15 @@ export const mapThemes = (themeData) => {
       borderRadius: 8,
       borderRadiusSM: 6,
       borderRadiusXS: 4,
-      fontSizeHeading1: 24,
-      fontSizeHeading2: 18,
-      fontSizeHeading3: 16,
-      fontSizeHeading4: 14,
-      fontSizeHeading5: 12,
+      fontSizeHeading1: COLORMAP.fontSizeHeading1 || 24,
+      fontSizeHeading2: COLORMAP.fontSizeHeading2 || 18,
+      fontSizeHeading3: COLORMAP.fontSizeHeading3 || 16,
+      fontSizeHeading4: COLORMAP.fontSizeHeading4 || 14,
+      fontSizeHeading5: COLORMAP.fontSizeHeading5 || 12,
       wireframe: true,
       fontFamily: "Asap",
-      fontSizeXL: 18,
+      fontSize: COLORMAP.fontSize || 14,
+      fontSizeXL: COLORMAP.fontSizeXL || 18,
       colorPrimary: COLORMAP.secondaryColor,
       colorTextTertiary: COLORMAP.detailTextColor,
       colorFillSecondary: COLORMAP.bgColor,
