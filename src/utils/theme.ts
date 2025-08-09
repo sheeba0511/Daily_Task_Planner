@@ -95,6 +95,7 @@ export const mapThemes = (themeData) => {
     "--primary-color": COLORMAP.primaryColor,
     "--secondary-color": COLORMAP.secondaryColor,
     "--detail-text-color": COLORMAP.detailTextColor,
+    "--border-color": COLORMAP.borderColor,
   };
   for (const [key, value] of Object.entries(rootColors)) {
     coreTag.style.setProperty(key, value);
