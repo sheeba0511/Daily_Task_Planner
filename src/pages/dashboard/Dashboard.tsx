@@ -61,7 +61,7 @@ function Dashboard() {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "bottom",
+        position: "bottom" as const,
       },
     },
   };
@@ -141,7 +141,7 @@ function Dashboard() {
 
     plugins: {
       legend: {
-        position: "bottom",
+        position: "bottom" as const,
         display: true,
       },
       title: {
